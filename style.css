@@ -1332,17 +1332,30 @@ body.has-floating-cart .app-container {
    ========================================================================== */
 .modal-backdrop {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  height: 100vh;
+  height: 100dvh;
+  max-height: 100dvh;
   background: rgba(0, 0, 0, 0.75);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   z-index: 999;
   display: flex;
   align-items: flex-end;
+  align-items: safe flex-end;
   justify-content: center;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.25s ease;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
 }
 
 .modal-backdrop.is-active {
@@ -3153,11 +3166,15 @@ body.has-floating-cart .app-container {
   }
 }
 
-/* Modal Carrito / Pedido Mayorista — Estructura 3 Zonas (App Screen 95vh) */
+/* Modal Carrito / Pedido Mayorista — Estructura 3 Zonas (App Screen Adaptativa) */
 .modal-carrito-card {
   max-width: 540px;
-  height: 95vh;
-  max-height: 95vh;
+  height: 92vh;
+  height: 92dvh;
+  height: calc(var(--modal-viewport-height, 100dvh) * 0.92);
+  max-height: 92vh;
+  max-height: 92dvh;
+  max-height: calc(var(--modal-viewport-height, 100dvh) * 0.92);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -3669,27 +3686,139 @@ body.has-floating-cart .app-container {
 }
 
 /* ==========================================================================
-   ADAPTACIONES MÓVIL CARRITO MAYORISTA (3 ZONAS & 95VH)
+   ADAPTACIONES MÓVIL CARRITO MAYORISTA (3 ZONAS & ADAPTATIVA)
    ========================================================================== */
 @media (max-width: 580px) {
   .modal-carrito-card {
-    height: 95vh;
-    max-height: 95vh;
+    height: 92vh;
+    height: 92dvh;
+    height: calc(var(--modal-viewport-height, 100dvh) * 0.92);
+    max-height: 92vh;
+    max-height: 92dvh;
+    max-height: calc(var(--modal-viewport-height, 100dvh) * 0.92);
     border-radius: var(--radius-xl) var(--radius-xl) 0 0;
     width: 100%;
   }
 
   .modal-carrito-header {
     padding: 0.75rem 1rem;
+    flex-shrink: 0;
   }
 
   .modal-carrito-body {
     padding: 0.75rem 1rem;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
   }
 
   .modal-carrito-footer {
     padding: 0.65rem 1rem max(0.85rem, env(safe-area-inset-bottom, 0.85rem)) 1rem;
+    flex-shrink: 0;
   }
 }
+
+/* ==========================================================================
+   ADAPTACIONES PARA PANTALLAS DE POCA ALTURA / ORIENTACIÓN HORIZONTAL
+   Garantiza que la cabecera, lista con scroll y todos los controles inferiores
+   permanezcan completamente visibles y accesibles sin recorte.
+   ========================================================================== */
+@media (max-height: 500px) {
+  .modal-backdrop {
+    align-items: center;
+    align-items: safe center;
+    padding: 0.25rem 0.5rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .modal-carrito-card {
+    height: 96vh;
+    height: 96dvh;
+    height: calc(var(--modal-viewport-height, 100dvh) * 0.96);
+    max-height: 96vh;
+    max-height: 96dvh;
+    max-height: calc(var(--modal-viewport-height, 100dvh) * 0.96);
+    border-radius: var(--radius-lg);
+  }
+
+  .modal-carrito-header {
+    padding: 0.35rem 0.85rem;
+    flex-shrink: 0;
+  }
+
+  .modal-carrito-header .modal-tag {
+    display: none;
+  }
+
+  .modal-carrito-header .modal-title {
+    font-size: 0.95rem;
+    margin: 0;
+  }
+
+  .modal-carrito-header .modal-date {
+    font-size: 0.65rem;
+  }
+
+  .modal-carrito-body {
+    padding: 0.35rem 0.85rem;
+    gap: 0.35rem;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .cart-item-row {
+    padding: 0.3rem 0.5rem;
+    gap: 0.5rem;
+  }
+
+  .modal-carrito-footer {
+    padding: 0.35rem 0.85rem max(0.35rem, env(safe-area-inset-bottom, 0.35rem)) 0.85rem;
+    gap: 0.2rem;
+    flex-shrink: 0;
+  }
+
+  .cart-summary-box {
+    padding: 0.25rem 0.5rem;
+    gap: 0.15rem;
+  }
+
+  .cart-summary-row {
+    font-size: 0.7rem;
+  }
+
+  .cart-total-soles {
+    font-size: 0.9rem;
+  }
+
+  .cart-min-warning-alert {
+    padding: 0.3rem 0.5rem;
+    gap: 0.35rem;
+    margin-top: 0;
+  }
+
+  .cart-min-warning-alert .warning-icon {
+    font-size: 0.95rem;
+  }
+
+  .cart-min-warning-alert .warning-title {
+    font-size: 0.7rem;
+  }
+
+  .cart-min-warning-alert .warning-desc {
+    font-size: 0.65rem;
+  }
+
+  .btn-whatsapp-order {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  .cart-secondary-actions .btn {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.68rem;
+  }
+}
+
 
 

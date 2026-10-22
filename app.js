@@ -682,12 +682,31 @@ document.addEventListener('DOMContentLoaded', () => {
     actualizarUIContadoresCarrito();
   }
 
+  let visualViewportResizeHandler = null;
+
+  function sincronizarAlturaVisualViewport() {
+    if (!window.visualViewport) return;
+    const vh = Math.round(window.visualViewport.height);
+    if (vh > 0) {
+      document.documentElement.style.setProperty('--modal-viewport-height', `${vh}px`);
+    }
+  }
+
   function abrirModalCarrito() {
     if (!elements.modalCarrito) return;
     renderizarModalCarrito();
     elements.modalCarrito.classList.add('is-active');
     elements.modalCarrito.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
+
+    // Ajustar y sincronizar con el área visible real del navegador móvil
+    sincronizarAlturaVisualViewport();
+    if (window.visualViewport && !visualViewportResizeHandler) {
+      visualViewportResizeHandler = () => {
+        sincronizarAlturaVisualViewport();
+      };
+      window.visualViewport.addEventListener('resize', visualViewportResizeHandler, { passive: true });
+    }
   }
 
   function cerrarModalCarrito() {
@@ -695,6 +714,13 @@ document.addEventListener('DOMContentLoaded', () => {
     elements.modalCarrito.classList.remove('is-active');
     elements.modalCarrito.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
+
+    // Limpiar listener de visualViewport al cerrar
+    if (window.visualViewport && visualViewportResizeHandler) {
+      window.visualViewport.removeEventListener('resize', visualViewportResizeHandler);
+      visualViewportResizeHandler = null;
+    }
+    document.documentElement.style.removeProperty('--modal-viewport-height');
   }
 
   /**
