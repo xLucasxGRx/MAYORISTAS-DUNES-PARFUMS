@@ -170,6 +170,8 @@ document.addEventListener('DOMContentLoaded', () => {
     btnAbrirCarritoFlotante: document.getElementById('btn-abrir-carrito-flotante'),
     floatingCartCount: document.getElementById('floating-cart-count'),
     floatingCartTotal: document.getElementById('floating-cart-total'),
+    floatingCartStatus: document.getElementById('floating-cart-status'),
+    conditionsMinCount: document.getElementById('conditions-min-count'),
 
     // Modal Carrito
     modalCarrito: document.getElementById('modal-carrito'),
@@ -197,6 +199,11 @@ document.addEventListener('DOMContentLoaded', () => {
     toastContainer: document.getElementById('toast-container'),
     pwaStatus: document.getElementById('pwa-status')
   };
+
+  // Inicializar mínimo mayorista en la franja de condiciones informativas
+  if (elements.conditionsMinCount) {
+    elements.conditionsMinCount.textContent = MIN_UNIDADES_MAYORISTA;
+  }
 
   // Formateadores
   const formatUSD = (num) => `$ ${Number(num || 0).toFixed(2)}`;
@@ -337,6 +344,33 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   }
 
+  /**
+   * Medición dinámica de altura de la barra flotante para garantizar
+   * un espacio libre óptimo al final del catálogo sin duplicar safe areas.
+   */
+  function actualizarAlturaBarraFlotante() {
+    if (!elements.floatingCartBar) return;
+    requestAnimationFrame(() => {
+      const btn = elements.btnAbrirCarritoFlotante || elements.floatingCartBar;
+      const rect = btn.getBoundingClientRect();
+      if (rect.height > 0) {
+        document.documentElement.style.setProperty('--floating-cart-height', `${Math.round(rect.height)}px`);
+      }
+    });
+  }
+
+  function inicializarObservadorBarraFlotante() {
+    if (!elements.floatingCartBar) return;
+    if (typeof ResizeObserver !== 'undefined') {
+      const ro = new ResizeObserver(() => {
+        actualizarAlturaBarraFlotante();
+      });
+      ro.observe(elements.floatingCartBar);
+    }
+    window.addEventListener('resize', actualizarAlturaBarraFlotante, { passive: true });
+    actualizarAlturaBarraFlotante();
+  }
+
   function actualizarUIContadoresCarrito() {
     const { totalUnidades, totalPedido, totalUnidadesBruto, hayAgotados } = obtenerTotalesCarrito();
 
@@ -345,12 +379,39 @@ document.addEventListener('DOMContentLoaded', () => {
       elements.headerCartCount.textContent = totalUnidades;
     }
 
-    // Barra flotante inferior
+    // Barra flotante inferior: visibilidad y clase de despeje en body
+    const hayItemsEnCarrito = totalUnidadesBruto > 0 || carrito.length > 0;
     if (elements.floatingCartBar) {
-      if (totalUnidadesBruto > 0 || carrito.length > 0) {
+      if (hayItemsEnCarrito) {
         elements.floatingCartBar.classList.remove('is-hidden');
+        document.body.classList.add('has-floating-cart');
       } else {
         elements.floatingCartBar.classList.add('is-hidden');
+        document.body.classList.remove('has-floating-cart');
+      }
+    }
+
+    // Aviso de unidades faltantes / productos agotados en la barra flotante
+    if (elements.floatingCartStatus) {
+      if (!hayItemsEnCarrito) {
+        elements.floatingCartStatus.textContent = '';
+        elements.floatingCartStatus.className = 'floating-cart-status';
+        elements.floatingCartStatus.style.display = 'none';
+      } else if (hayAgotados) {
+        // Prioridad absoluta: productos agotados en el carrito
+        elements.floatingCartStatus.textContent = 'Revisa los productos agotados';
+        elements.floatingCartStatus.className = 'floating-cart-status is-warning';
+        elements.floatingCartStatus.style.display = 'block';
+      } else if (totalUnidades < MIN_UNIDADES_MAYORISTA) {
+        const faltan = MIN_UNIDADES_MAYORISTA - totalUnidades;
+        elements.floatingCartStatus.textContent = faltan === 1 ? 'Te falta 1 unidad' : `Te faltan ${faltan} unidades`;
+        elements.floatingCartStatus.className = 'floating-cart-status';
+        elements.floatingCartStatus.style.display = 'block';
+      } else {
+        // 6 o más unidades válidas: oculta el aviso de faltantes
+        elements.floatingCartStatus.textContent = '';
+        elements.floatingCartStatus.className = 'floating-cart-status';
+        elements.floatingCartStatus.style.display = 'none';
       }
     }
 
@@ -361,6 +422,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (elements.floatingCartTotal) {
       elements.floatingCartTotal.textContent = formatPEN(totalPedido);
     }
+
+    // Sincronizar altura real para el padding del catálogo
+    actualizarAlturaBarraFlotante();
 
     // Totales en modal
     if (elements.cartTotalUnidades) {
@@ -1449,6 +1513,7 @@ document.addEventListener('DOMContentLoaded', () => {
    */
   cargarCarrito();
   cargarCatalogo(false);
+  inicializarObservadorBarraFlotante();
 
   console.log('[GL EXPRESS] Plataforma Mayorista Inicializada con éxito.');
 });

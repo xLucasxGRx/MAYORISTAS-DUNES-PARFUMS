@@ -77,6 +77,18 @@
         <!-- 1. Título principal centrado -->
         <h2 class="catalog-main-title">CATÁLOGO MAYORISTA</h2>
 
+        <!-- Franja Informativa de Condiciones de Compra -->
+        <div class="catalog-conditions-strip" id="catalog-conditions-strip" aria-label="Condiciones de compra mayorista">
+          <div class="conditions-item conditions-min">
+            <span class="conditions-icon">✨</span>
+            <span class="conditions-text">Compra mínima: <strong id="conditions-min-count">6</strong> unidades</span>
+          </div>
+          <div class="conditions-item conditions-shipping">
+            <span class="conditions-icon">📦</span>
+            <span class="conditions-text">Importación por pedido &middot; Llegada estimada: 3 semanas después del cierre de compra.</span>
+          </div>
+        </div>
+
         <!-- 2. Estado de Inventario (Disponibles vs Agotados) -->
         <div class="catalog-commercial-status">
           <span class="catalog-counter" id="catalogo-contador">Consultando pestaña MAYORISTA...</span>
@@ -173,8 +185,13 @@
     <button type="button" id="btn-abrir-carrito-flotante" class="floating-cart-btn">
       <div class="floating-cart-left">
         <span class="floating-cart-icon">🛒</span>
-        <span class="floating-cart-text">Ver pedido</span>
-        <span class="floating-cart-badge" id="floating-cart-count">0</span>
+        <div class="floating-cart-info">
+          <div class="floating-cart-title-row">
+            <span class="floating-cart-text">Ver pedido</span>
+            <span class="floating-cart-badge" id="floating-cart-count">0</span>
+          </div>
+          <span class="floating-cart-status" id="floating-cart-status" style="display: none;"></span>
+        </div>
       </div>
       <div class="floating-cart-right">
         <span class="floating-cart-total" id="floating-cart-total">S/ 0.00</span>
