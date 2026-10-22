@@ -289,7 +289,7 @@ class CarritoMayorista {
     const { totalUnidades, totalPedido } = this.obtenerTotales();
     if (this.items.length === 0) return '';
 
-    let msg = 'PEDIDO MAYORISTA GL EXPRESS\n\n';
+    let msg = 'PEDIDO MAYORISTA DUNES PARFUMS\n\n';
     msg += `Cliente: ${nombreCliente ? nombreCliente.trim() : ''}\n\n`;
 
     this.items.forEach(item => {
@@ -318,7 +318,7 @@ class CarritoMayorista {
     };
   }
 
-  generarUrlWhatsApp(nombreCliente = '', numeroTelefono = '51910487554', catalogoActual = []) {
+  generarUrlWhatsApp(nombreCliente = '', numeroTelefono = '51986510573', catalogoActual = []) {
     if (catalogoActual && catalogoActual.length > 0) {
       const valDisp = this.validarDisponibilidad(catalogoActual);
       if (!valDisp.esValido) {
@@ -401,7 +401,7 @@ const carritoWA = new CarritoMayorista();
 carritoWA.agregar({ id: '1', producto: '9 AM Dive 3.4 Oz', puestoPeru: 90.00 }, 1);
 carritoWA.agregar({ id: '2', producto: 'Perfume X', puestoPeru: 80.00 }, 3);
 
-const mensajeEsperado = `PEDIDO MAYORISTA GL EXPRESS
+const mensajeEsperado = `PEDIDO MAYORISTA DUNES PARFUMS
 
 Cliente: 
 
@@ -459,7 +459,7 @@ assert.ok(valMenor.mensajeAdvertencia.includes('Te faltan 3 unidades'), 'Debe in
 
 // Intentar generar URL WhatsApp con menos de 6 unidades debe arrojar excepción de seguridad
 assert.throws(() => {
-  cartMin.generarUrlWhatsApp('Negocio Lima', '51910487554');
+  cartMin.generarUrlWhatsApp('Negocio Lima', '51986510573');
 }, /mínimo mayorista de 6 unidades/, 'Debe bloquear la generación de WhatsApp si unidades < 6');
 console.log('✔ Caso A (< 6 unidades): Bloqueado con alerta roja y botón desactivado.');
 
@@ -473,10 +473,10 @@ assert.strictEqual(valExacto.cumple, true, 'Debe permitir enviar pedido con 6 un
 assert.strictEqual(valExacto.faltan, 0, 'No deben faltar unidades');
 assert.strictEqual(valExacto.mensajeAdvertencia, null, 'No debe haber mensaje de advertencia');
 
-const urlWA = cartMin.generarUrlWhatsApp('Perfumería Mayorista Express', '51910487554');
-assert.ok(urlWA.startsWith('https://api.whatsapp.com/send?phone=51910487554'), 'La URL debe dirigir al número oficial 51910487554');
+const urlWA = cartMin.generarUrlWhatsApp('Perfumería Mayorista Express', '51986510573');
+assert.ok(urlWA.startsWith('https://api.whatsapp.com/send?phone=51986510573'), 'La URL debe dirigir al número oficial 51986510573');
 assert.ok(urlWA.includes(encodeURIComponent('TOTAL UNIDADES: 6')), 'El mensaje codificado debe reflejar 6 unidades');
-console.log('✔ Caso B (>= 6 unidades): Habilitado en verde y URL generada con número 51910487554.');
+console.log('✔ Caso B (>= 6 unidades): Habilitado en verde y URL generada con número 51986510573.');
 
 // Test 6: Sincronización de Disponibilidad en Carrito y Recálculo Excluyendo Agotados
 console.log('\n--- Test 6: Validación de disponibilidad y recálculo de totales ---');
@@ -504,7 +504,7 @@ assert.ok(estadoBoton.alerta.includes('Algunos productos de tu pedido ya no est�
 
 // Intentar enviar WhatsApp con agotados debe arrojar error
 assert.throws(() => {
-  cartDisp.generarUrlWhatsApp('Cliente Mayorista', '51910487554', catalogoEnVivo);
+  cartDisp.generarUrlWhatsApp('Cliente Mayorista', '51986510573', catalogoEnVivo);
 }, /contiene productos agotados/, 'Debe impedir generar WhatsApp si hay agotados');
 console.log('✔ Caso 6A: Totales recalculados (excluye agotados) y botón bloqueado con "🔒 ACTUALIZA TU PEDIDO".');
 
@@ -522,7 +522,7 @@ assert.strictEqual(estadoBotonLimpio.habilitado, true, 'Botón habilitado');
 assert.strictEqual(estadoBotonLimpio.texto, '📲 ENVIAR PEDIDO POR WHATSAPP', 'Texto del botón habilitado');
 assert.strictEqual(estadoBotonLimpio.alerta, null, 'Sin alerta');
 
-const urlWAOk = cartDisp.generarUrlWhatsApp('Cliente Mayorista', '51910487554', catalogoEnVivo);
+const urlWAOk = cartDisp.generarUrlWhatsApp('Cliente Mayorista', '51986510573', catalogoEnVivo);
 assert.ok(urlWAOk.includes('TOTAL%20UNIDADES%3A%206'), 'Mensaje WhatsApp generado correctamente tras remover agotados');
 console.log('✔ Caso 6B: Tras eliminar producto agotado, pedido habilitado para WhatsApp con 6 unidades.');
 

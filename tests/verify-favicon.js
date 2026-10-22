@@ -152,7 +152,7 @@ async function run() {
 
   assert.ok(val.faviconLinks.length >= 4, 'Deben existir múltiples links de favicon');
   assert.ok(val.manifestLink.includes('manifest.json'), 'Debe existir link a manifest.json');
-  assert.ok(val.title.includes('GL EXPRESS'), 'El título debe ser GL EXPRESS');
+  assert.ok(val.title.includes('DUNES PARFUMS'), 'El título debe ser DUNES PARFUMS');
 
   edgeProcess.kill();
   server.close();

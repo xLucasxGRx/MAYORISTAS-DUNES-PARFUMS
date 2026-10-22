@@ -129,12 +129,12 @@ async function run() {
   const res = logoMetrics.result.value;
   console.log('Métricas del Logo inspeccionado:', res);
 
-  assert.ok(res.headerImgSrc.includes('logoGL.jpeg'), 'El header debe apuntar a logoGL.jpeg');
+  assert.ok(res.headerImgSrc.includes('logo-dunes-parfums-blanco.png'), 'El header debe apuntar a logo-dunes-parfums-blanco.png');
   assert.ok(res.headerImgComplete, 'La imagen del logo debe haberse cargado completamente');
-  assert.strictEqual(res.headerImgNaturalWidth, 1254, 'El ancho natural debe coincidir con el logo original');
-  assert.strictEqual(res.headerImgNaturalHeight, 1254, 'El alto natural debe coincidir con el logo original');
+  assert.strictEqual(res.headerImgNaturalWidth, 1280, 'El ancho natural debe coincidir con el logo original');
+  assert.strictEqual(res.headerImgNaturalHeight, 1280, 'El alto natural debe coincidir con el logo original');
   assert.ok(res.containerHeight >= 45 && res.containerHeight <= 60, `La altura en móvil (${res.containerHeight}px) debe estar entre 45px y 60px`);
-  assert.ok(res.splashImgSrc.includes('logoGL.jpeg'), 'El splash screen debe apuntar a logoGL.jpeg');
+  assert.ok(res.splashImgSrc.includes('logo-dunes-parfums-blanco.png'), 'El splash screen debe apuntar a logo-dunes-parfums-blanco.png');
 
   console.log('✔ Logo cargado y validado en tamaño móvil.');
 
@@ -180,7 +180,7 @@ async function run() {
 
   edgeProcess.kill();
   server.close();
-  console.log('🎉 VERIFICACIÓN DEL LOGO GL EXPRESS COMPLETADA CON ÉXITO');
+  console.log('🎉 VERIFICACIÓN DEL LOGO DUNES PARFUMS COMPLETADA CON ÉXITO');
 }
 
 run().catch(err => {

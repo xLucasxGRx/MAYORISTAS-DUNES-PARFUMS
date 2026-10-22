@@ -4,7 +4,7 @@
  * ==========================================================================
  */
 
-const CACHE_NAME = 'glexpress-mayorista-v3.1';
+const CACHE_NAME = 'glexpress-mayorista-v3.2';
 
 // Lista de activos estáticos con rutas relativas compatibles con GitHub Pages
 const STATIC_ASSETS = [
@@ -14,7 +14,7 @@ const STATIC_ASSETS = [
   './app.js',
   './manifest.json',
   './favicon.ico',
-  './logosDP/logoGL.jpeg',
+  './logosDP/logo-dunes-parfums-blanco.png',
   './assets/favicon.ico',
   './assets/favicon-16x16.png',
   './assets/favicon-32x32.png',

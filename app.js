@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Reglas de negocio y configuración mayorista
   const MIN_UNIDADES_MAYORISTA = 6;
-  const WHATSAPP_NUMERO = '51910487554';
+  const WHATSAPP_NUMERO = '51986510573';
 
   // Estado en memoria
   let catalogoProductos = [];
@@ -681,7 +681,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch (e) {}
     }
 
-    let mensaje = 'PEDIDO MAYORISTA GL EXPRESS\n\n';
+    let mensaje = 'PEDIDO MAYORISTA DUNES PARFUMS\n\n';
     mensaje += `Cliente: ${nombreCliente}\n\n`;
 
     carrito.forEach(item => {

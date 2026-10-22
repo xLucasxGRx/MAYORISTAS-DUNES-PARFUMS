@@ -17,7 +17,7 @@ const swJs = fs.readFileSync(path.join(rootDir, 'service-worker.js'), 'utf8');
 
 // Regla 1: Confirmación de "PUESTO EN PERÚ" y PROHIBICIÓN de "Costo Perú" en la UI de GL EXPRESS
 console.log('\n--- Regla 1: Verificación de etiquetas y privacidad de datos ---');
-assert.ok(indexHtml.includes('GL EXPRESS'), 'index.html debe contener el branding GL EXPRESS');
+assert.ok(indexHtml.includes('DUNES PARFUMS'), 'index.html debe contener el branding DUNES PARFUMS');
 assert.ok(appJs.includes('PUESTO EN PERÚ'), 'app.js debe incluir la etiqueta oficial "PUESTO EN PERÚ"');
 assert.ok(!indexHtml.includes('vista-cotizador'), 'index.html no debe incluir la vista antigua de cotizador minorista');
 assert.ok(!indexHtml.includes('modal-configuracion'), 'index.html no debe incluir el modal de configuración de costos');
@@ -31,7 +31,7 @@ assert.ok(styleCss.includes('is-item-agotado'), 'style.css debe incluir estilos 
 assert.ok(appJs.includes('MIN_UNIDADES_MAYORISTA'), 'app.js debe definir la constante MIN_UNIDADES_MAYORISTA');
 assert.ok(appJs.includes('validarProductosDisponibles'), 'app.js debe implementar validarProductosDisponibles()');
 assert.ok(appJs.includes('ACTUALIZA TU PEDIDO'), 'app.js debe incluir el estado ACTUALIZA TU PEDIDO');
-assert.ok(appJs.includes('51910487554'), 'app.js debe apuntar al número oficial de WhatsApp 51910487554');
+assert.ok(appJs.includes('51986510573'), 'app.js debe apuntar al número oficial de WhatsApp 51986510573');
 assert.ok(!appJs.includes('<span class="wholesale-price-lbl">USA</span>'), 'app.js no debe renderizar la etiqueta USA en la tarjeta');
 assert.ok(!appJs.includes('wholesale-price-usa'), 'app.js no debe incluir la clase wholesale-price-usa en la tarjeta');
 console.log('✔ index.html y app.js validados: Limpio de vistas minoristas, regla de 6 unidades, confirmación de vaciado y validación de stock activa.');
